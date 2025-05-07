@@ -6,25 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
-        Schema::create('productos', function ($table) {
-            $table->id();
-            $table->string('status');
-            $table->string('name');
-            $table->timestamps();
+        Schema::table('productos', function (Blueprint $table) {
+            if (!Schema::hasColumn('productos', 'name')) {
+                $table->string('name')->after('id');
+            }
+            
+            if (!Schema::hasColumn('productos', 'status')) {
+                $table->string('status')->after('name');
+            }
+            
+            if (!Schema::hasColumn('productos', 'deleted_at')) {
+                $table->softDeletes();
+            }
         });
-        //   id, name, status, created_at, updated_at, deleted_at
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        //
+        Schema::table('productos', function (Blueprint $table) {
+            $table->dropColumn(['name', 'status', 'deleted_at']);
+        });
     }
 };

@@ -2,8 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ProductoController;
 
-
-Route::get('/productos',[Productocontroller::class,'index']);
-
-Route::post('/productos',[Productocontroller::class,'insert']);
+Route::get('/productos', [ProductoController::class, 'index']);
+Route::post('/productos', [ProductoController::class, 'insert']);
